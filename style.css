@@ -1,0 +1,153 @@
+:root {
+    --primary-color: #2d3436;
+    --accent-color: #0984e3;
+    --bg-color: #f5f6fa;
+    --card-bg: #ffffff;
+    --input-border: #dfe6e9;
+    --label-color: #636e72;
+    --sub-note-color: #a0a0a0;
+}
+
+body {
+    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.container {
+    width: 95%;
+    max-width: 650px;
+    background: var(--card-bg);
+    padding: 50px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+h2 {
+    text-align: center;
+    font-weight: 300;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.section-title {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--label-color);
+}
+
+.section-subtitle {
+    display: block;
+    font-size: 0.85rem;
+    color: #636e72;
+    margin-bottom: 15px;
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+}
+
+.selectable-item {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--input-border);
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.selectable-item:hover:not(.disabled-item) {
+    border-color: var(--accent-color);
+    background: #f8fbff;
+}
+
+.selectable-item input {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+.selectable-item:has(input:checked) {
+    border-color: var(--accent-color);
+    background-color: rgba(9, 132, 227, 0.05);
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* 禁用狀態樣式 */
+.selectable-item:has(input:disabled) {
+    background-color: #f0f0f0 !important;
+    border-color: #dcdcdc !important;
+    cursor: not-allowed !important;
+    opacity: 0.5;
+}
+
+.selectable-item:has(input:disabled) span {
+    color: #a0a0a0;
+    text-decoration: line-through;
+}
+
+/* 日期按鈕樣式 */
+.date-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.date-item {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    padding: 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    cursor: pointer;
+}
+.date-item input { display: none; }
+.date-item:has(input:checked) {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    font-weight: bold;
+    background: rgba(9, 132, 227, 0.05);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 18px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.footer-note {
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--sub-note-color);
+    margin-top: 25px;
+}

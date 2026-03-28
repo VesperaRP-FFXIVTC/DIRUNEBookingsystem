@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIRUNE 指名預約系統</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>DIRUNE 指名預約</h2>
+    
+    <form id="bookingForm">
+        <div class="form-group">
+            <label class="section-title">遊戲 ID</label>
+            <input type="text" id="gameId" name="gameId" placeholder="例如 Inu@泰坦" required>
+        </div>
+
+        <div class="form-group">
+            <label class="section-title">你希望指名的貓咪 (最多 3 位)</label>
+            <span class="section-subtitle">※ 為了確保服務品質，每筆預約最多僅能指名 3 位。</span>
+            <div class="grid-layout">
+                <label class="selectable-item"><input type="checkbox" name="cats" value="埃斯咪"> <span>埃斯咪</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="堡"> <span>堡</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="蒼雨"> <span>蒼雨</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="赤羽"> <span>赤羽</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="倒頭"> <span>倒頭</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="燈蒔"> <span>燈蒔</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="Eating"> <span>Eating</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="古拉哈堤婭"> <span>古·拉哈堤婭</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="洛摩"> <span>洛摩</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="燎"> <span>燎</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="Misca"> <span>Misca</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="默默"> <span>默默</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="貓糕"> <span>貓糕</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="Rayn"> <span>Rayn</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="蝦蝦"> <span>蝦蝦</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="(SP) Inu" disabled> <span>(SP) Inu</span></label>
+                <label class="selectable-item"><input type="checkbox" name="cats" value="(SP) 伊萊諾斯" disabled> <span>(SP) 伊萊諾斯</span></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="section-title">預約日期</label>
+            <div class="date-group">
+                <label class="date-item"><input type="radio" name="bookingDate" value="2026/04/03" required> 2026/04/03</label>
+                <label class="date-item"><input type="radio" name="bookingDate" value="2026/04/04"> 2026/04/04</label>
+                <label class="date-item"><input type="radio" name="bookingDate" value="2026/04/05"> 2026/04/05</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="section-title">預約時段 (可多選)</label>
+            <div class="grid-layout" id="timeSlotContainer">
+                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="21:30-22:00"> 21:30-22:00</label>
+                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="22:00-22:30"> 22:00-22:30</label>
+                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="22:30-23:00"> 22:30-23:00</label>
+                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="23:00-23:30"> 23:00-23:30</label>
+                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="23:30-00:00"> 23:30-00:00</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="section-title">聯絡方法與備註</label>
+            <span class="section-subtitle">※ 請留下 Discord 或 Threads 帳號。</span>
+            <textarea id="notes" name="notes" rows="4" placeholder="例如：Discord: user#1234" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">確認預約</button>
+    </form>
+
+    <div class="footer-note">請於預約時間前 10 分鐘到達，謝謝配合。</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
