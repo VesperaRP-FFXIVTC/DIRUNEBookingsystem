@@ -18,8 +18,11 @@
         </div>
 
         <div class="form-group">
-            <label class="section-title">你希望指名的貓咪 (最多 3 位)</label>
-            <span class="section-subtitle">※ 為了確保服務品質，每筆預約最多僅能指名 3 位。</span>
+    <label class="section-title">你希望指名的貓咪 (最多 3 位)</label>
+    <span class="section-subtitle">
+        ※ 每位指名費用為 <strong>50,000 Gil（30分鐘）</strong>，依人數計費。<br>
+        ※ 每筆預約最多指名 3 位（例：3 位（30分鐘）總計 150,000 Gil）。
+    </span>
             <div class="grid-layout">
                 <label class="selectable-item"><input type="checkbox" name="cats" value="埃斯咪"> <span>埃斯咪</span></label>
                 <label class="selectable-item"><input type="checkbox" name="cats" value="堡"> <span>堡</span></label>
@@ -39,7 +42,11 @@
                 <label class="selectable-item"><input type="checkbox" name="cats" value="(SP) Inu" disabled> <span>(SP) Inu</span></label>
                 <label class="selectable-item"><input type="checkbox" name="cats" value="(SP) 伊萊諾斯" disabled> <span>(SP) 伊萊諾斯</span></label>
             </div>
-        </div>
+            <p id="total-price" style="color: #d9ad7c; font-weight: bold; margin-top: 10px; text-align: right;">
+        預計指名費用：0 Gil
+    </p>
+</div>
+        
 
         <div class="form-group">
             <label class="section-title">預約日期</label>
@@ -53,11 +60,11 @@
         <div class="form-group">
             <label class="section-title">預約時段 (可多選)</label>
             <div class="grid-layout" id="timeSlotContainer">
-                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="21:30-22:00"> 21:30-22:00</label>
-                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="22:00-22:30"> 22:00-22:30</label>
-                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="22:30-23:00"> 22:30-23:00</label>
-                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="23:00-23:30"> 23:00-23:30</label>
-                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="23:30-00:00"> 23:30-00:00</label>
+                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="21:30-22:00"> <span>21:30-22:00</span></label>
+                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="22:00-22:30"> <span>22:00-22:30</span></label>
+                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="22:30-23:00"> <span>22:30-23:00</span></label>
+                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="23:00-23:30"> <span>23:00-23:30</span></label>
+                <label class="selectable-item"><input type="checkbox" name="timeSlots" value="23:30-00:00"> <span>23:30-00:00</span></label>
             </div>
         </div>
 

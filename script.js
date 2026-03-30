@@ -1,3 +1,15 @@
+// --- [最上方] 終極計費版 (保留這個) ---
+window.calculateDIRUNETotal = function() {
+    const cats = document.querySelectorAll('input[name="cats"]:checked').length;
+    const slots = document.querySelectorAll('input[name="timeSlots"]:checked').length;
+    const total = cats * slots * 50000;
+    const display = document.getElementById('total-price');
+    if (display) {
+        display.innerText = `預計指名費用：${total.toLocaleString()} Gil`;
+    }
+};
+document.addEventListener('click', window.calculateDIRUNETotal);
+window.onload = window.calculateDIRUNETotal;
 // 核心設定：請替換為你的 GAS 網址
 const scriptURL = 'https://script.google.com/macros/s/AKfycbzVupRh1gjYn1FwNOY1spg46HXhkoD0xNd4K3ljRkwaOTeRkxrW79YjlQ6pn0UBlOQ7/exec';
 let allShiftData = [];
@@ -47,7 +59,6 @@ function updateTimeSlots() {
     const selectedDateEl = document.querySelector('input[name="bookingDate"]:checked');
     const allTimeCheckboxes = document.querySelectorAll('input[name="timeSlots"]');
 
-    // 1. 重置狀態
     allTimeCheckboxes.forEach(cb => {
         cb.disabled = false;
         cb.parentElement.classList.remove('disabled-item');
@@ -55,27 +66,28 @@ function updateTimeSlots() {
 
     if (!selectedDateEl || selectedCats.length === 0) return;
 
-    // 取得選中的日期，並統一格式（把 - 換成 /，去除多餘空格）
     const selectedDate = selectedDateEl.value.trim().replace(/-/g, '/');
 
     selectedCats.forEach(catName => {
-        // 在抓到的資料中尋找這隻貓咪
         const staffShift = allShiftData.find(s => {
-            // 統一將資料庫的日期也轉成 / 格式進行比對
             const dbDate = s.date.trim().replace(/-/g, '/');
             return s.name.trim() === catName.trim() && dbDate === selectedDate;
         });
         
         if (staffShift) {
+            console.log(`正在檢查貓咪：${catName} 的排班資料：`, staffShift.slots); // 偵錯用
             allTimeCheckboxes.forEach(cb => {
-                const status = staffShift.slots[cb.value];
-                // 這裡最重要：只要狀態「不是」可預約，就鎖定
-                // 這樣不管是「休假」還是「已預約」，都會變灰
-                if (status !== "可預約") {
+                const status = staffShift.slots[cb.value] ? staffShift.slots[cb.value].trim() : "";
+                
+                // 這裡改用更嚴格的判斷：只要不是「可預約」，通通鎖起來
+                if (status !== "可預約" && status !== "") {
+                    console.log(`發現不可預約時段：${cb.value}，狀態為：${status}`);
                     cb.disabled = true;
                     cb.checked = false;
                 }
             });
+        } else {
+            console.warn(`找不到貓咪 ${catName} 在 ${selectedDate} 的排班`);
         }
     });
 }
