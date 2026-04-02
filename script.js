@@ -1,7 +1,7 @@
-// 1. 基本設定（已修正網址拼字）
+// 1. 基本設定（已修正網址拼字，結尾必須是 exec）
 const scriptURL = 'https://script.google.com/macros/s/AKfycbzVupRh1gjYn1FwNOY1spg46HXhkoD0xNd4K3ljRkwaOTeRkxrW79YjlQ6pn0UBlOQ7/exec';
 const form = document.forms['submit-to-google-sheet'];
-let allShiftData = []; // 儲存班表資料
+let allShiftData = []; 
 
 // 2. 自動計費功能
 function calculateDIRUNETotal() {
@@ -16,24 +16,25 @@ function calculateDIRUNETotal() {
 
 // 3. 網頁載入與監聽
 window.addEventListener('load', () => {
-    init(); // 抓班表
-    calculateDIRUNETotal(); // 算錢
+    init(); // 抓取班表資料
+    calculateDIRUNETotal(); 
 });
 document.addEventListener('change', calculateDIRUNETotal);
 
-// 4. 抓取 Google 試算表班表
+// 4. 抓取 Google 試算表班表資料
 async function init() {
     try {
         const response = await fetch(scriptURL, { method: 'GET', redirect: 'follow' });
+        if (!response.ok) throw new Error('網路回應不正確');
         allShiftData = await response.json();
-        console.log("班表同步成功");
+        console.log("班表同步成功:", allShiftData);
         updateTimeSlots(); 
     } catch (error) {
         console.error("班表載入失敗:", error);
     }
 }
 
-// 5. 限制貓咪數量 (最多3位) 與連動時段
+// 5. 限制貓咪數量 (最多3位) [cite: 11]
 document.querySelectorAll('input[name="cats"]').forEach(checkbox => {
     checkbox.addEventListener('change', function() {
         const checkedCount = document.querySelectorAll('input[name="cats"]:checked').length;
@@ -45,12 +46,12 @@ document.querySelectorAll('input[name="cats"]').forEach(checkbox => {
     });
 });
 
-// 6. 日期變更監聽
+// 6. 日期變更監聽 [cite: 12]
 document.querySelectorAll('input[name="bookingDate"]').forEach(radio => {
     radio.addEventListener('change', updateTimeSlots);
 });
 
-// 7. 更新可用時段邏輯
+// 7. 更新可用時段邏輯 [cite: 13]
 function updateTimeSlots() {
     if (!allShiftData || allShiftData.length === 0) return;
     const selectedCats = Array.from(document.querySelectorAll('input[name="cats"]:checked')).map(el => el.value);
@@ -82,24 +83,31 @@ function updateTimeSlots() {
     });
 }
 
-// 8. 處理表單送出（資料傳到 Excel）
+// 8. 處理表單送出（將資料傳送到 Excel）
 if (form) {
     form.addEventListener('submit', e => {
         e.preventDefault();
         const submitBtn = form.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
+        if (submitBtn) submitBtn.disabled = true;
         
-        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        console.log("正在送出預約資料...");
+
+        fetch(scriptURL, { 
+            method: 'POST', 
+            body: new FormData(form) 
+        })
         .then(response => {
-            alert('預約成功！');
+            console.log('送出成功!', response);
+            alert('預約成功！我們已收到您的資訊。');
             form.reset();
-            calculateDIRUNETotal();
-            updateTimeSlots();
-            submitBtn.disabled = false;
+            calculateDIRUNETotal(); 
+            updateTimeSlots(); 
+            if (submitBtn) submitBtn.disabled = false;
         })
         .catch(error => {
-            alert('預約失敗，請稍後再試。');
-            submitBtn.disabled = false;
+            console.error('送出失敗!', error.message);
+            alert('預約失敗，請檢查網路連線。');
+            if (submitBtn) submitBtn.disabled = false;
         });
     });
 }
