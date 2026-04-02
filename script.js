@@ -18,9 +18,18 @@ async function init() {
     try {
         const response = await fetch(scriptURL, { method: 'GET', redirect: 'follow' });
         if (!response.ok) throw new Error('網路回應不正確');
-        allShiftData = await response.json();
-        console.log("班表同步成功:", allShiftData);
-        updateTimeSlots(); 
+        
+        const data = await response.json();
+        
+        // 【關鍵修復】檢查拿到的資料是不是清單 (Array)
+        if (Array.isArray(data)) {
+            allShiftData = data;
+            console.log("班表同步成功:", allShiftData);
+            updateTimeSlots();
+        } else {
+            // 如果拿到的是 {result: 'success'} 而不是班表，就不執行 find
+            console.warn("拿到的不是班表清單，格式為:", data);
+        }
     } catch (error) {
         console.error("無法載入班表:", error);
     }
