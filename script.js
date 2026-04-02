@@ -1,5 +1,5 @@
 // 1. 全域變數
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzVupRh1gjYn1FwNOY1spg46HXhkoD0xNd4K3ljRkwaOTeRkxrW79YjlQ6pn0UBlOQ7/exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzEXj855BC8OJNPajEzR2mBpw2iknArkpCkflQTCJIEG3T1geMDIIxFzwEzwn4mODut/exec';
 let allShiftData = []; 
 
 // 2. 自動計費邏輯
