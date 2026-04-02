@@ -55,8 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (submitBtn) submitBtn.disabled = true;
 
             fetch(scriptURL, { 
-                method: 'POST', 
-                mode: 'no-cors', 
+                method: 'POST',  
                 body: new FormData(bookingForm) 
             })
             .then(() => {
