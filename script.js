@@ -1,5 +1,9 @@
-// --- [最上方] 終極計費版 (保留這個) ---
-window.calculateDIRUNETotal = function() {
+// 1. 全域變數 (請確認網址結尾是 exec)
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzVupRh1gjYn1FwNOY1spg46HXhkoD0xNd4K3ljRkwaOTeRkxrW79YjlQ6pn0UBlOQ7/execl';
+const form = document.forms['submit-to-google-sheet'];
+
+// 2. 自動計費邏輯 (放在頂端)
+function calculateDIRUNETotal() {
     const cats = document.querySelectorAll('input[name="cats"]:checked').length;
     const slots = document.querySelectorAll('input[name="timeSlots"]:checked').length;
     const total = cats * slots * 50000;
@@ -7,13 +11,40 @@ window.calculateDIRUNETotal = function() {
     if (display) {
         display.innerText = `預計指名費用：${total.toLocaleString()} Gil`;
     }
-};
-document.addEventListener('click', window.calculateDIRUNETotal);
-window.onload = window.calculateDIRUNETotal;
-// 核心設定：請替換為你的 GAS 網址
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzVupRh1gjYn1FwNOY1spg46HXhkoD0xNd4K3ljRkwaOTeRkxrW79YjlQ6pn0UBlOQ7/exec';
-let allShiftData = [];
+}
+document.addEventListener('change', calculateDIRUNETotal);
+window.addEventListener('load', calculateDIRUNETotal);
 
+// 3. 處理表單送出 (保留這一段即可)
+if (form) {
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = true;
+        
+        console.log("正在送出預約資料...");
+
+        fetch(scriptURL, { 
+            method: 'POST', 
+            body: new FormData(form) // 這樣寫最保險
+        })
+        .then(response => {
+            console.log('送出成功!', response);
+            alert('預約成功！我們已收到您的資訊。');
+            form.reset();
+            calculateDIRUNETotal();
+            if (submitBtn) submitBtn.disabled = false;
+        })
+        .catch(error => {
+            console.error('送出失敗!', error.message);
+            alert('預約失敗，請檢查網路連線。');
+            if (submitBtn) submitBtn.disabled = false;
+        });
+    });
+}
+
+// 4. 原本的班表讀取邏輯 (init, updateTimeSlots 等)
+// ... 請接續放置你原本負責讀取班表的程式碼 ...
 // 1. 網頁加載時抓取班表
 async function init() {
     try {
@@ -90,33 +121,4 @@ function updateTimeSlots() {
             console.warn(`找不到貓咪 ${catName} 在 ${selectedDate} 的排班`);
         }
     });
-}
-
-// 4. 表單送出
-document.getElementById('bookingForm').onsubmit = function(e) {
-    e.preventDefault();
-    
-    const formData = {
-        gameId: document.getElementById('gameId').value,
-        cats: Array.from(document.querySelectorAll('input[name="cats"]:checked')).map(el => el.value),
-        bookingDate: document.querySelector('input[name="bookingDate"]:checked').value,
-        timeSlots: Array.from(document.querySelectorAll('input[name="timeSlots"]:checked')).map(el => el.value),
-        notes: document.getElementById('notes').value
-    };
-
-    if (formData.cats.length === 0) return alert('請至少選擇一位指名的貓咪！');
-    if (formData.timeSlots.length === 0) return alert('請至少選擇一個預約時段！');
-
-    fetch(scriptURL, {
-        method: 'POST',
-        mode: 'no-cors',
-        cache: 'no-cache',
-        body: JSON.stringify(formData)
-    })
-    .then(() => {
-        alert('預約成功！感謝您的預約。');
-        document.getElementById('bookingForm').reset();
-        updateTimeSlots(); // 重置介面
-    })
-    .catch(error => alert('預約失敗，請稍後再試。' + error.message));
 };
